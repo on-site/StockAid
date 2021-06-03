@@ -33,6 +33,6 @@
 
   <div class="form-group">
     <label class="control-label" for="order_notes">Notes:</label>
-    <%= text_area :order, :notes, class: 'form-control' %>
+    <%= text_area :order, :notes, class: 'form-control', disabled: !current_user.can_edit_order?(order) %>
   </div>
 <% end %>

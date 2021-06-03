@@ -18,6 +18,10 @@ module Users
       can_sync_orders? && order.closed? && !order.synced?
     end
 
+    def can_view_order?(order)
+      super_admin? || member_at?(order.organization)
+    end
+
     def can_edit_order_at?(organization)
       super_admin? || member_at?(organization)
     end

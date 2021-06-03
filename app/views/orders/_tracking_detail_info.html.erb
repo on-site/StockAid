@@ -28,9 +28,11 @@
     </tr>
   </script>
 
-  <%= render partial: "tracking_details/tracking_detail_table", locals: { tracking_details: order.tracking_details, hidden: order.tracking_details.empty? } %>
+  <%= render partial: "tracking_details/tracking_detail_table", locals: { order: order, tracking_details: order.tracking_details, hidden: order.tracking_details.empty? } %>
 
-  <%= link_to "Add Tracking", nil, type: "button", class: "btn btn-default", id: "add-tracking-number" %>
+  <% if current_user.can_edit_order?(order) %>
+    <%= link_to "Add Tracking", nil, type: "button", class: "btn btn-default", id: "add-tracking-number" %>
 
-  <%= link_to "Hand Delivered", order_path(order, order: { tracking_details: { tracking_number: ["N/A"], shipping_carrier: [TrackingDetail.shipping_carriers["Hand"]] } }), method: :put, class: "btn btn-default" %>
+    <%= link_to "Hand Delivered", order_path(order, order: { tracking_details: { tracking_number: ["N/A"], shipping_carrier: [TrackingDetail.shipping_carriers["Hand"]] } }), method: :put, class: "btn btn-default" %>
+  <% end %>
 <% end %>

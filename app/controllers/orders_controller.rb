@@ -38,12 +38,17 @@ class OrdersController < ApplicationController
     @order = Order.includes(order_details: %i[item bins]).find(params[:id])
 
     if current_user.can_edit_order?(@order)
-      if Rails.root.join("app/views/orders/status/#{@order.status}.html.erb").exist?
-        render "orders/status/#{@order.status}"
-      end
+      render_status_or_edit
+    elsif current_user.can_view_order?(@order)
+      render :show
     else
       redirect_to orders_path
     end
+  end
+
+  def show
+    @order = Order.includes(order_details: :item).find(params[:id])
+    redirect_to orders_path unless current_user.can_view_order?(@order)
   end
 
   def update
@@ -54,5 +59,15 @@ class OrdersController < ApplicationController
   def sync
     order = current_user.sync_order(params)
     redirect_to edit_order_path(order)
+  end
+
+  private
+
+  def render_status_or_edit
+    if Rails.root.join("app/views/orders/status/#{@order.status}.html.erb").exist?
+      render "orders/status/#{@order.status}"
+    else
+      render :edit
+    end
   end
 end

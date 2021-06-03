@@ -61,7 +61,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :orders, only: %i[index new create edit update] do
+  resources :orders, except: %i[destroy] do
     collection do
       get :rejected, :closed, :canceled
     end

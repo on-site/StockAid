@@ -47,3 +47,23 @@ received_order_with_order_details:
   status: 5
   ship_to_name: "Acme Receiver"
   ship_to_address: "123 Fake St."
+
+acme_order:
+  organization: acme
+  user: acme_root
+  order_date: <%= Time.zone.now %>
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+  status: -1
+  ship_to_name: "Unsubmitted Order Receiver"
+  ship_to_address: "123 Fake St."
+
+acme_submitted_order:
+  organization: acme
+  user: acme_root
+  order_date: <%= Time.zone.now %>
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+  status: 1
+  ship_to_name: "Open Order Receiver"
+  ship_to_address: "123 Fake St."

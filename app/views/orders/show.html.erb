@@ -1,0 +1,9 @@
+<% content_for :title, "Order #{@order.id}" %>
+
+<% content_for :content do %>
+  <div class="hidden-print">
+    <h4>Status: <b><%= @order.status.titleize %></b></h4>
+    <%= render partial: "order_header", locals: { order: @order } %>
+    <%= render partial: "order_table", locals: { order: @order, include_sku: true } %>
+  </div>
+<% end %>

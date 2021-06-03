@@ -20,14 +20,16 @@
           <%= shipment.delivery_date %>
         </td>
         <td>
-          <% if shipment.delivery_date.blank? %>
-            <%= link_to tracking_detail_path(shipment, status: 'delivered'), method: :patch, class: 'btn btn-success btn-xs' do %>
-              <i class="glyphicon glyphicon-check"></i> Mark Delivered
+          <% if current_user.can_edit_order?(order) %>
+            <% if shipment.delivery_date.blank?%>
+              <%= link_to tracking_detail_path(shipment, status: 'delivered'), method: :patch, class: 'btn btn-success btn-xs' do %>
+                <i class="glyphicon glyphicon-check"></i> Mark Delivered
+              <% end %>
             <% end %>
-          <% end %>
 
-          <%= link_to tracking_detail_path(shipment), method: :delete, class: "btn btn-danger btn-xs", data: confirm(title: "Deleting Tracking Number: #{shipment.tracking_number}") do %>
-            <span class="glyphicon glyphicon-trash"></span>
+            <%= link_to tracking_detail_path(shipment), method: :delete, class: "btn btn-danger btn-xs", data: confirm(title: "Deleting Tracking Number: #{shipment.tracking_number}") do %>
+              <span class="glyphicon glyphicon-trash"></span>
+            <% end %>
           <% end %>
         </td>
       </tr>
