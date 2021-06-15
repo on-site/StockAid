@@ -1,16 +1,22 @@
 <table class="table table-striped table-responsive data-table">
   <thead>
     <tr>
-      <th class="sort-asc">Description</th>
+      <th class="sort-asc">Category</th>
+      <th>item</th>
+      <th class="text-center">Count</th>
       <th class="text-center monetary-value">Value</th>
+      <th>PPV</th>
     </tr>
   </thead>
 
   <tbody>
-    <% report.each do |description, value| %>
+    <% report.each do |category_name, item_name, count, value, ppv| %>
       <tr>
-        <td><%= description %></td>
+        <td><%= category_name %></td>
+        <td><%= item_name %></td>
+        <td class="text-center"><%= count %></td>
         <td class="text-center"><%= number_to_currency value, precision: 2 %></td>
+        <td><%= ppv %></td>
       </tr>
     <% end %>
   </tbody>
@@ -18,7 +24,10 @@
   <tfoot>
     <tr>
       <th></th>
+      <th></th>
+      <th></th>
       <th class="text-center"><%= number_to_currency report.total_value, precision: 2 %></th>
+      <th></th>
     </tr>
   </tfoot>
 </table>

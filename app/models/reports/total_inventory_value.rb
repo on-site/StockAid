@@ -17,41 +17,37 @@ module Reports
 
     class SingleCategory
       include Common
-      attr_reader :category
+      attr_accessor :category, :total_value
 
       def initialize(params)
         @category = Category.find(params[:category_id])
         @params = params
+        @total_value = 0.0
       end
 
       def each
         category.items.order(:description).each do |item|
-          yield item.description, item.total_value(at: date)
+          @total_value += (item_total_value = item.total_value(at: date))
+          yield category.description, item.description, item.total_count(at: date), item_total_value, "FIXME"
         end
-      end
-
-      def total_value
-        category.value
       end
     end
 
     class AllCategories
       include Common
-      attr_reader :categories
+      attr_accessor :categories, :total_value
 
       def initialize(params)
         @categories = Category.all
         @params = params
+        @total_value = 0.0
       end
 
       def each
         categories.each do |category|
-          yield category.description, category.value(at: date)
+          @total_value += (category_total_value = category.total_value(at: date))
+          yield category.description, nil, category.total_count(at: date), category_total_value, "FIXME"
         end
-      end
-
-      def total_value
-        categories.to_a.sum(&:value)
       end
     end
   end

@@ -12,12 +12,27 @@ class Category < ApplicationRecord
     }
   end
 
-  def value(at: nil)
+  def total_value(at: nil)
     if at.blank?
       items.sum("current_quantity * value")
     else
       items.includes(:versions).inject(0) do |sum, item|
         total = item.total_value(at: at)
+        if total.present?
+          sum + total
+        else
+          sum
+        end
+      end
+    end
+  end
+
+  def total_count(at: nil)
+    if at.blank?
+      items.sum(:current_quantity)
+    else
+      items.includes(:versions).inject(0) do |sum, item|
+        total = item.total_count(at: at)
         if total.present?
           sum + total
         else

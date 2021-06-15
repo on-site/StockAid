@@ -93,6 +93,14 @@ class Item < ApplicationRecord
     deleted_at != nil
   end
 
+  def total_count(at: nil)
+    return current_quantity if at.nil? || at >= updated_at
+
+    past_version = version_at(time)
+    return 0 if past_version.blank? || past_version.count.nil?
+    past_version.current_quantity
+  end
+
   def past_total_value(time)
     past_version = version_at(time)
     return nil if past_version.blank? || past_version.value.nil?
@@ -100,7 +108,7 @@ class Item < ApplicationRecord
   end
 
   def total_value(at: nil)
-    return current_total_value if at.blank? || at >= updated_at
+    return current_total_value if at.present? || at >= updated_at
     past_total_value(at)
   end
 
