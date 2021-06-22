@@ -2,8 +2,10 @@
   <div class="col-xs-12">
     <%= form_tag total_inventory_value_reports_path, method: "get", class: "form-inline pull-right" do %>
       <div class="form-group form-group-sm">
-        <%= label_tag :date, "Date", class: "control-label" %>
-        <%= text_field_tag :date, params[:date], class: "form-control", data: { provide: "datepicker" } %>
+        <%= label_tag :start_date, "Start Date", class: "control-label" %>
+        <%= text_field_tag :start_date, params[:start_date], class: "form-control", data: { provide: "datepicker" } %>
+        <%= label_tag :end_date, "End Date", class: "control-label" %>
+        <%= text_field_tag :end_date, params[:end_date], class: "form-control", data: { provide: "datepicker" } %>
       </div>
 
       <%= hidden_field_tag :category_id, request.params[:category_id] %>

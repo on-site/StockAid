@@ -2,10 +2,10 @@
   <thead>
     <tr>
       <th class="sort-asc">Category</th>
-      <th>item</th>
+      <th>Item</th>
       <th class="text-center">Count</th>
       <th class="text-center monetary-value">Value</th>
-      <th>PPV</th>
+      <th class="text-center">PPV</th>
     </tr>
   </thead>
 
@@ -16,7 +16,7 @@
         <td><%= item_name %></td>
         <td class="text-center"><%= count %></td>
         <td class="text-center"><%= number_to_currency value, precision: 2 %></td>
-        <td><%= ppv %></td>
+        <td class="text-center"><%= number_to_currency ppv, precision: 2 %></td>
       </tr>
     <% end %>
   </tbody>
@@ -27,7 +27,7 @@
       <th></th>
       <th></th>
       <th class="text-center"><%= number_to_currency report.total_value, precision: 2 %></th>
-      <th></th>
+      <th class="text-center"><%= number_to_currency report.total_ppv, precision: 2 %></th>
     </tr>
   </tfoot>
 </table>

@@ -79,6 +79,10 @@ class Item < ApplicationRecord
     where(deleted_at: nil)
   end
 
+  def description
+    super + (deleted? ? " (deleted)" : "")
+  end
+
   def soft_delete
     self.deleted_at = Time.zone.now
     save
@@ -95,21 +99,25 @@ class Item < ApplicationRecord
 
   def total_count(at: nil)
     return current_quantity if at.nil? || at >= updated_at
+    past_total_count(at)
+  end
 
+
+  def past_total_count(time)
     past_version = version_at(time)
-    return 0 if past_version.blank? || past_version.count.nil?
+    return 0 if past_version.blank? || past_version.current_quantity.nil?
     past_version.current_quantity
+  end
+
+  def total_value(at: nil)
+    return current_total_value if at.blank? || at >= updated_at
+    past_total_value(at)
   end
 
   def past_total_value(time)
     past_version = version_at(time)
-    return nil if past_version.blank? || past_version.value.nil?
+    return 0 if past_version.blank? || past_version.value.nil?
     past_version.current_quantity * past_version.value
-  end
-
-  def total_value(at: nil)
-    return current_total_value if at.present? || at >= updated_at
-    past_total_value(at)
   end
 
   def current_total_value
